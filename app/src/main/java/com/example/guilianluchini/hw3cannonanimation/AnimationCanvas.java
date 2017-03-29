@@ -17,7 +17,7 @@ import android.view.View.OnTouchListener;
  * @author Andrew Nuxoll
  * @version September 2012
  * 
- * 
+ * DO NOT MODIFY THIS FILE
  */
 public class AnimationCanvas extends SurfaceView implements OnTouchListener{
 
