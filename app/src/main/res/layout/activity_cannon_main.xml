@@ -9,5 +9,46 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="com.example.guilianluchini.hw3cannonanimation.CannonMainActivity">
+    tools:context="com.example.guilianluchini.hw3cannonanimation.CannonMainActivity"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="941dp"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+
+        <TextView
+            android:text="ANGLE:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/angleTV"
+            android:layout_weight="0.00"
+            android:textSize="24sp" />
+
+        <SeekBar
+            android:layout_width="141dp"
+            android:layout_height="37dp"
+            android:id="@+id/seekBar"
+            android:layout_weight="0.07" />
+
+        <Space
+            android:layout_height="wrap_content"
+            android:layout_weight="0.00"
+            android:layout_width="30dp" />
+
+        <Button
+            android:text="FIRE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fireButton"
+            android:layout_weight="0.00"
+            style="@style/Widget.AppCompat.Button" />
+
+    </LinearLayout>
+
+    <com.example.guilianluchini.hw3cannonanimation.MySurfaceView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/surfaceView"/>
 </LinearLayout>
