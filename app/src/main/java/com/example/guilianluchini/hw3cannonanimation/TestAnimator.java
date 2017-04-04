@@ -27,20 +27,20 @@ public class TestAnimator implements Animator {
 	public int interval() {
 		return 30;
 	}
-	
+
 	/**
 	 * The background color: a light blue.
 	 * 
 	 * @return the background color onto which we will draw the image.
 	 */
 	public int backgroundColor() {
-		// create/return the background color
+		// create/return the background color as a nice light blue
 		return Color.rgb(180, 200, 255);
 	}
-	
+
 	/**
 	 * Tells the animation whether to go backwards.
-	 * 
+	 *
 	 * @param b true iff animation is to go backwards.
 	 */
 	public void goBackwards(boolean b) {
@@ -68,13 +68,13 @@ public class TestAnimator implements Animator {
 		// (with the appropriate correction if the value was negative)
 		// has the effect of "wrapping around" when we get to either end
 		// (since our canvas size is 600 in each dimension).
-		int num = (count*15)%600;
-		if (num < 0) num += 600;
+		int num = (count*15)%1200;
+		if (num < 0) num += 1200;
 		
 		// Draw the ball in the correct position.
-		Paint redPaint = new Paint();
-		redPaint.setColor(Color.RED);
-		g.drawCircle(num, num, 60, redPaint);
+		Paint blackPaint = new Paint();
+		blackPaint.setColor(Color.BLACK);
+		g.drawCircle(num, num, 50, blackPaint);
 	}
 
 	/**

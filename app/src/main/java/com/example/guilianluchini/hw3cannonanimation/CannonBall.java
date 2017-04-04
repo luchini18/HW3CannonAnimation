@@ -17,32 +17,32 @@ import java.util.Random;
  */
 
 public class CannonBall {
-    public static final int MAX_VELOCITY = 5;
+    private final double INITIAL_VELOCITY = 15;
     //instance variables
-    private int x;
-    private int y;
+    private double x;
+    private double y;
     private int size;
-    private int velX;
-    private int velY;
-    private Paint myPaint;
+    private double velX;
+    private double velY;
+    private Paint myPaint = new Paint();
+    private double launchAngle;
 
     //constructor
-    public CannonBall(int initX, int initY, int initSize)
+    public CannonBall(double initX, double initY,double initLaunchAngle)
     {
         x = initX;
         y = initY;
-        size = initSize;
+        launchAngle = initLaunchAngle;
+        size = 25;
         myPaint.setColor(Color.BLACK);
 
-        //The velocity is set to a random value within range
-        Random randGen = new Random();
-        velX = randGen.nextInt(MAX_VELOCITY*2) - MAX_VELOCITY;
-        velY = randGen.nextInt(MAX_VELOCITY*2) - MAX_VELOCITY;
+        velX = INITIAL_VELOCITY* Math.cos(launchAngle);
+        velY = INITIAL_VELOCITY* Math.sin(launchAngle);
     }
 
     /** accessor methods */
-    public int getX() { return x; }
-    public int getY() { return y; }
+    public double getXVel() { return velX; }
+    public double getYVel() { return velY; }
 
     /** mutator methods */
     public void setPos(int newX, int newY) { x = newX; y = newY; }
@@ -59,33 +59,33 @@ public class CannonBall {
      */
     public void move(int width, int height)
     {
-        //Update position
-        x += velX;
-        y += velY;
+//      Update position
+//        x = velX;
+//        y = velY - 9.81/2;
 
         //Bounce as necessary
-        if (x < 0)
-        {
-            x = -x;
-            velX = -velX;
-        }
-        else if (x > width)
-        {
-            x = width - (x - width);
-            velX = -velX;
-        }
-
-        if (y < 0)
-        {
-            y = -y;
-            velY = -velY;
-        }
-        else if (y > height)
-        {
-            y = height - (y - height);
-            velY = -velY;
-        }
-    }//move
+//        if (x < 0)
+//        {
+//            x = -x;
+//            velX = -velX;
+//        }
+//        else if (x > width)
+//        {
+//            x = width - (x - width);
+//            velX = -velX;
+//        }
+//
+//        if (y < 0)
+//        {
+//            y = -y;
+//            velY = -velY;
+//        }
+//        else if (y > height)
+//        {
+//            y = height - (y - height);
+//            velY = -velY;
+//        }
+    }
 
     /**
      * paint
@@ -94,7 +94,7 @@ public class CannonBall {
      *
      * @param canvas   the canvas
      */
-    public void paint(Canvas canvas)
+    public void paint(float x, float y,Canvas canvas)
     {
         canvas.drawCircle(x,y,size,myPaint);
     }
