@@ -113,11 +113,15 @@ public class CannonMainActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         int viewId = view.getId();
+
         //fire cannon - start animation
         if(viewId == R.id.fireButton){
+            //send angle to animator class and reset count
             int angle = angleSB.getProgress();
             cannonAnim.setDegrees(angle);
             cannonAnim.resetCount();
+
+            //set bounds for if the target was hit or not
             if (angle <= 7 || (angle >= 23 && angle <= 34)){
                 /**
                  External Citation
@@ -149,13 +153,12 @@ public class CannonMainActivity extends AppCompatActivity implements View.OnClic
                 }, 1400);//delay 1.4 seconds to see if the ball hits the target
 
             }
-
         }
     }
 
-
 	/**
 	 * This is the default behavior (empty menu)
+     * I might use this in HW 3 b
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
