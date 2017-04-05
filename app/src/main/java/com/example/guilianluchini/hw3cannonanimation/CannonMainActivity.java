@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 /**
  * CannonMainActivity
@@ -23,7 +24,18 @@ import android.widget.SeekBar;
  *
  * edited by Guilian Luchini
  * April 2017
- * 
+ *
+ * Edits include:
+ * activity_cannon_main.xml to display a cannon, targets,
+ * animation canvas and controls for the cannon
+ *
+ * CannonBall class stores velocity, color and size of a
+ * cannonball and is usedin RealAnimator Class
+ *
+ * RealAnimator class implements Animator interface and fires
+ * the cannon consistently with the laws of gravity, although
+ * this cannon is pretty powerful
+ *
  */
 
 /**
@@ -41,10 +53,11 @@ public class CannonMainActivity extends AppCompatActivity implements View.OnClic
     private Button fireButton;
     private ImageView cannonImage;
     private int seek;
-    CannonAnimator cannonAnim = new CannonAnimator();
+    private TextView hitTV, degreesTV;
+    RealAnimator cannonAnim = new RealAnimator();
 
 	/**
-	 * creates an AnimationCanvas containing a TestAnimator.
+	 * creates an AnimationCanvas containing a RealAnimator and initializes views
 	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -55,6 +68,8 @@ public class CannonMainActivity extends AppCompatActivity implements View.OnClic
         angleSB =(SeekBar) findViewById(R.id.angleSeekBar);
         fireButton = (Button) findViewById(R.id.fireButton);
         cannonImage = (ImageView) findViewById(R.id.cannonIV);
+        hitTV = (TextView) findViewById(R.id.hitTV);
+        degreesTV = (TextView) findViewById(R.id.degreesTV);
 
         //set max for seekbar
         angleSB.setMax(90);
@@ -64,8 +79,6 @@ public class CannonMainActivity extends AppCompatActivity implements View.OnClic
         LinearLayout mainLayout = (LinearLayout) this
                 .findViewById(R.id.topLevelLayout);
         mainLayout.addView(myCanvas);
-
-
 
         //seek bar listener
         angleSB.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -86,30 +99,34 @@ public class CannonMainActivity extends AppCompatActivity implements View.OnClic
                 mat.postRotate(-progress);
                 Bitmap bMapRotate = Bitmap.createBitmap(bMap, 0, 0, bMap.getWidth(), bMap.getHeight(), mat, true);
                 cannonImage.setImageBitmap(bMapRotate);
+                degreesTV.setText("" + seek + " Degrees");
+
             }
         });
 
-        //button listener
-        fireButton.setOnClickListener(new Button.OnClickListener(){
-            public void onClick(android.view.View v){
-                int viewId = v.getId();
-                if(viewId == R.id.fireButton){
-                    //fire cannon - start animation
-                    int angle = angleSB.getProgress();
-                }
-            }
-        });
+            //button listener
+            fireButton.setOnClickListener(this);
+
 	}
-
+    //onClick, fires the cannon, decides if the cannon hit a target
     @Override
     public void onClick(View view) {
         int viewId = view.getId();
+        //fire cannon - start animation
         if(viewId == R.id.fireButton){
-            //fire cannon - start animation
             int angle = angleSB.getProgress();
+            cannonAnim.setDegrees(angle);
             cannonAnim.resetCount();
+            if (angle <= 7 || (angle >= 23 && angle <= 34)){
+                hitTV.setText("YOU HIT THE TARGET!");
+            }
+            else{
+                hitTV.setText("YOU MISSED");
+            }
+
         }
     }
+
 
 	/**
 	 * This is the default behavior (empty menu)

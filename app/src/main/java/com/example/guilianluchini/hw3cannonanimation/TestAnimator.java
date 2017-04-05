@@ -3,7 +3,6 @@ package com.example.guilianluchini.hw3cannonanimation;
 import android.graphics.*;
 import android.view.MotionEvent;
 
-
 /**
  * class that animates a ball repeatedly moving diagonally on
  * simple background
@@ -12,6 +11,7 @@ import android.view.MotionEvent;
  * @author Andrew Nuxoll
  * @version September 2012
  */
+
 public class TestAnimator implements Animator {
 
 	// instance variables
@@ -68,13 +68,13 @@ public class TestAnimator implements Animator {
 		// (with the appropriate correction if the value was negative)
 		// has the effect of "wrapping around" when we get to either end
 		// (since our canvas size is 600 in each dimension).
-		int num = (count*15)%1200;
-		if (num < 0) num += 1200;
+		int num = (count*15)%600;
+		if (num < 0) num += 600;
 		
 		// Draw the ball in the correct position.
 		Paint blackPaint = new Paint();
 		blackPaint.setColor(Color.BLACK);
-		g.drawCircle(num, num, 50, blackPaint);
+		g.drawCircle(num+500, -num+1000, 50, blackPaint);
 	}
 
 	/**

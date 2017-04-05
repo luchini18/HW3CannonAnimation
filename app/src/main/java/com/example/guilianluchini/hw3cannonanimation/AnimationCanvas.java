@@ -19,12 +19,14 @@ import android.view.View.OnTouchListener;
  * 
  * DO NOT MODIFY THIS FILE
  */
+
 public class AnimationCanvas extends SurfaceView implements OnTouchListener{
 
 	// instance variables
 	private Animator animator; // our aninimator
 	private CannonThread cannonThread = null; // thread to generate ticks
 	private Paint backgroundPaint = new Paint();
+	private int angle;
 
 	/**
 	 * To create an animation canvas, you must supply an instance of a class
@@ -44,7 +46,7 @@ public class AnimationCanvas extends SurfaceView implements OnTouchListener{
 
 		// initialize the animator instance variable from the parameter
 		animator = anim;
-		
+
 		//Begin listening for touch events
 		this.setOnTouchListener(this);
 
@@ -66,7 +68,7 @@ public class AnimationCanvas extends SurfaceView implements OnTouchListener{
 	 */
 	private class CannonThread extends Thread {
 
-		// a reference to a SurfaveView's holder. This is used to "lock" the
+		// a reference to a SurfaceView's holder. This is used to "lock" the
 		// canvas when we want to write to it
 		private SurfaceHolder surfaceHolder;
 

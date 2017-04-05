@@ -17,11 +17,10 @@ import java.util.Random;
  */
 
 public class CannonBall {
-    private final double INITIAL_VELOCITY = 15;
+    private final double INITIAL_VELOCITY = 30;
     //instance variables
-    private double x;
-    private double y;
-    private int size;
+
+    private float size;
     private double velX;
     private double velY;
     private Paint myPaint = new Paint();
@@ -30,22 +29,24 @@ public class CannonBall {
     //constructor
     public CannonBall(double initX, double initY,double initLaunchAngle)
     {
-        x = initX;
-        y = initY;
+
         launchAngle = initLaunchAngle;
         size = 25;
         myPaint.setColor(Color.BLACK);
 
-        velX = INITIAL_VELOCITY* Math.cos(launchAngle);
-        velY = INITIAL_VELOCITY* Math.sin(launchAngle);
+        velX = INITIAL_VELOCITY;
+                //* Math.cos(launchAngle);
+        velY = INITIAL_VELOCITY;
+                //* Math.sin(launchAngle);
     }
 
     /** accessor methods */
     public double getXVel() { return velX; }
     public double getYVel() { return velY; }
-
+    public float getSize() { return size; }
+    public Paint getMyPaint() {return myPaint;}
     /** mutator methods */
-    public void setPos(int newX, int newY) { x = newX; y = newY; }
+    //public void setPos(int newX, int newY) { x = newX; y = newY; }
     public void setSize(int newSize) { size = newSize; }
 
 

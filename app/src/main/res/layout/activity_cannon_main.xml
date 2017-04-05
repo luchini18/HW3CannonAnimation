@@ -26,13 +26,26 @@
             android:layout_height="wrap_content"
             android:id="@+id/angleTV"
             android:layout_weight="0.00"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:textColor="@android:color/holo_red_dark" />
 
         <SeekBar
             android:layout_width="141dp"
             android:layout_height="37dp"
             android:id="@+id/angleSeekBar"
-            android:layout_weight="0.07" />
+            android:layout_weight="0.07"
+            android:thumbTint="@android:color/holo_red_dark"
+            android:progressTint="@android:color/holo_red_light"
+            />
+
+        <TextView
+            android:text="0 Degrees"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/degreesTV"
+            android:layout_weight="0.00"
+            android:textSize="24sp"
+            android:textColor="@android:color/holo_red_dark" />
 
         <Space
             android:layout_height="wrap_content"
@@ -40,12 +53,26 @@
             android:layout_width="30dp" />
 
         <Button
-            android:text="FIRE"
+            android:text="FIRE!"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/fireButton"
             android:layout_weight="0.00"
             style="@style/Widget.AppCompat.Button" />
+
+        <Space
+            android:layout_height="wrap_content"
+            android:layout_weight="0.00"
+            android:layout_width="200dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/hitTV"
+            android:layout_weight="0.00"
+            android:text="FIRE THE CANNON!"
+            android:textSize="24sp"
+            android:textColor="@android:color/holo_orange_dark" />
 
     </LinearLayout>
 
@@ -53,11 +80,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.example.guilianluchini.hw3cannonanimation.AnimationCanvas
+        <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/topLevelLayout"></com.example.guilianluchini.hw3cannonanimation.AnimationCanvas>
+            android:id="@+id/topLevelLayout"></LinearLayout>
+
+        <ImageView
+            app:srcCompat="@drawable/target"
+            android:id="@+id/target2IV"
+            android:layout_weight="1"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginEnd="35dp"
+            android:layout_alignTop="@+id/cannonIV"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
         <ImageView
             android:layout_width="225dp"
@@ -67,6 +106,18 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
+
+        <ImageView
+            app:srcCompat="@drawable/target"
+            android:id="@+id/target1IV"
+            android:layout_weight="1"
+            android:layout_marginTop="90dp"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignLeft="@+id/target2IV"
+            android:layout_alignStart="@+id/target2IV" />
+
     </RelativeLayout>
 
 </LinearLayout>
