@@ -1,11 +1,8 @@
 package com.example.guilianluchini.hw3cannonanimation;
 
-import android.app.Activity;
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
-import android.view.View;
 
 /**
  * Created by guilianluchini on 4/1/17.

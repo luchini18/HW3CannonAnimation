@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
@@ -118,10 +119,35 @@ public class CannonMainActivity extends AppCompatActivity implements View.OnClic
             cannonAnim.setDegrees(angle);
             cannonAnim.resetCount();
             if (angle <= 7 || (angle >= 23 && angle <= 34)){
-                hitTV.setText("YOU HIT THE TARGET!");
+                /**
+                 External Citation
+                 Date:     5 April 2017
+                 Problem:  delaying the setting of the text view
+                 Resource: http://stackoverflow.com/questions/14186846/delay-actions-in-android
+                 Solution: I used example code from this post
+                 */
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        hitTV.setText("YOU HIT THE TARGET!");
+                    }
+
+                }, 1400);//delay 1.4 seconds to see if the ball hits the target
+
             }
             else{
-                hitTV.setText("YOU MISSED");
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        hitTV.setText("YOU MISSED");
+                    }
+
+                }, 1400);//delay 1.4 seconds to see if the ball hits the target
+
             }
 
         }
