@@ -1,5 +1,6 @@
 package com.example.guilianluchini.hw3cannonanimation;
 
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
@@ -13,29 +14,57 @@ import android.graphics.Paint;
  Resource: Moodle/Nuxoll
  Solution: I used small portions of ball class
  */
+/**
+ External Citation
+ Date:     7 April 2017
+ Problem:  how to tell if cannonball and target are overlapping
+ Resource: Moodle/Nuxoll
+ Solution: Doodads spot demo had the method overlaps() that I used
+ */
 
 public class CannonBall {
     //instance variables
-    private final double INITIAL_VELOCITY = 30;
-
+    private int x, y;
     private float size;
     private double velX;
     private double velY;
     private Paint myPaint = new Paint();
 
     //constructor
-    public CannonBall(double initX, double initY)
-    {
+    public CannonBall(int initX, int initY) {
+        x = initX;
+        y = initY;
         size = 25;
         myPaint.setColor(Color.BLACK);
-        velX = INITIAL_VELOCITY;
-        velY = INITIAL_VELOCITY;
     }
 
-    /** accessor methods */
-    public double getXVel() { return velX; }
-    public double getYVel() { return velY; }
-    public float getSize() { return size; }
-    public Paint getMyPaint() {return myPaint;}
+    /**
+     * accessor methods
+     */
+    public float getSize() {
+        return size;
+    }
+
+    public Paint getMyPaint() {
+        return myPaint;
+    }
+
+    public void drawMe(Canvas canvas) {
+        canvas.drawCircle(x, y, size, myPaint);
+    }
+
+    public boolean overlaps(Target other)
+    {
+        //Determine the distance between the two spots
+        float xDist = Math.abs (other.x - this.x);
+        float yDist = Math.abs (other.y - this.y);
+        float dist = (int)Math.sqrt(xDist*xDist + yDist*yDist);
+
+        //which spot is largest?
+        float largeSize = Math.max(this.getSize(), other.getSize());
+
+        return dist <= largeSize;
+    }
+
 }
 

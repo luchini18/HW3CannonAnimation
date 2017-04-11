@@ -3,8 +3,9 @@ package com.example.guilianluchini.hw3cannonanimation;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
@@ -26,7 +27,7 @@ import android.widget.TextView;
  * edited by Guilian Luchini
  * April 2017
  *
- * Edits include:
+ * ///////PART A////////////////
  * activity_cannon_main.xml to display a cannon, targets,
  * animation canvas and controls for the cannon
  *
@@ -37,7 +38,15 @@ import android.widget.TextView;
  * the cannon consistently with the laws of gravity, although
  * this cannon is pretty powerful
  *
+ * ///////PART B////////////////
+ * 5pts - Targets create animated "explosion" by inverting their colors when a cannonball hits them
+ *
+ * 8pts - Targets move around on screen until they are hit by a cannonball''
+ *
+ * 8pts - Included sound at cannon fire and target hit
+ *
  */
+
 
 /**
  External Citation
@@ -47,16 +56,25 @@ import android.widget.TextView;
  rotate-the-image-360-degree-by-using-seekbar-in-android
  Solution: I used example code from this post
  */
+/**
+ External Citation
+ Date:     7 April 2017
+ Problem:  adding sounds to actions
+ Resource: Moodle/Nuxoll
+ Solution: I used example code from the Doodads demo
+ */
 
-public class CannonMainActivity extends AppCompatActivity implements View.OnClickListener {
+public class CannonMainActivity extends AppCompatActivity implements View.OnClickListener{
     //instance variables
     private SeekBar angleSB;
-    private Button fireButton;
+    private Button fireButton,resetTargetsButton;
     private ImageView cannonImage;
     private int seek;
     private TextView hitTV, degreesTV;
-    RealAnimator cannonAnim = new RealAnimator();
-
+    RealAnimator cannonAnim;
+    // for playing sounds
+    private SoundPool soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+    private int fireSoundId,fuseSoundId;
 	/**
 	 * creates an AnimationCanvas containing a RealAnimator and initializes views
 	 */
@@ -68,6 +86,7 @@ public class CannonMainActivity extends AppCompatActivity implements View.OnClic
         //find views
         angleSB =(SeekBar) findViewById(R.id.angleSeekBar);
         fireButton = (Button) findViewById(R.id.fireButton);
+        resetTargetsButton = (Button) findViewById(R.id.resetTargetsButton);
         cannonImage = (ImageView) findViewById(R.id.cannonIV);
         hitTV = (TextView) findViewById(R.id.hitTV);
         degreesTV = (TextView) findViewById(R.id.degreesTV);
@@ -76,6 +95,7 @@ public class CannonMainActivity extends AppCompatActivity implements View.OnClic
         angleSB.setMax(90);
 
         // Create an animation canvas and place it in the main layout
+        cannonAnim = new RealAnimator(this);
         final AnimationCanvas myCanvas = new AnimationCanvas(this, cannonAnim);
         LinearLayout mainLayout = (LinearLayout) this
                 .findViewById(R.id.topLevelLayout);
@@ -107,8 +127,12 @@ public class CannonMainActivity extends AppCompatActivity implements View.OnClic
 
             //button listener
             fireButton.setOnClickListener(this);
+            resetTargetsButton.setOnClickListener(this);
 
+        this.fireSoundId = soundPool.load(this,R.raw.cannonfire, 1);
+        this.fuseSoundId = soundPool.load(this,R.raw.litfuse, 1);
 	}
+
     //onClick, fires the cannon, decides if the cannon hit a target
     @Override
     public void onClick(View view) {
@@ -116,53 +140,49 @@ public class CannonMainActivity extends AppCompatActivity implements View.OnClic
 
         //fire cannon - start animation
         if(viewId == R.id.fireButton){
-            //send angle to animator class and reset count
+            //send message to animator class
             int angle = angleSB.getProgress();
             cannonAnim.setDegrees(angle);
-            cannonAnim.resetCount();
+            cannonAnim.fireCannon();
 
-            //set bounds for if the target was hit or not
-            if (angle <= 7 || (angle >= 23 && angle <= 34)){
-                /**
-                 External Citation
-                 Date:     5 April 2017
-                 Problem:  delaying the setting of the text view
-                 Resource: http://stackoverflow.com/questions/14186846/delay-actions-in-android
-                 Solution: I used example code from this post
-                 */
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
+            //start fuse burning and let it play for 1 second
+            soundPool.play(this.fuseSoundId, 1, 1, 1, 0, 1.0f);
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                //do nothin
+            }
 
-                    @Override
-                    public void run() {
-                        hitTV.setText("YOU HIT THE TARGET!");
-                    }
 
-                }, 1400);//delay 1.4 seconds to see if the ball hits the target
-
+            soundPool.play(this.fireSoundId, 1, 1, 1, 0, 1.0f);
+            //wait to see if the cannonball hits a target
+            try {
+                Thread.sleep(1700);
+            } catch (InterruptedException e) {
+                //do nothing
+            }
+            //after 1.7 seconds, check to see if a target has been hit
+            if (cannonAnim.getHitCount() >= 1){
+                hitTV.setText("YOU HIT THE TARGET!");
             }
             else{
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        hitTV.setText("YOU MISSED");
-                    }
-
-                }, 1400);//delay 1.4 seconds to see if the ball hits the target
-
+                hitTV.setText("YOU MISSED");
             }
+
+        }
+        else if(viewId == R.id.resetTargetsButton){
+            cannonAnim.resetTargets();
         }
     }
 
-	/**
+
+    /**
 	 * This is the default behavior (empty menu)
-     * I might use this in HW 3 b
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.cannon_main, menu);
 		return true;
 	}
+
 }
